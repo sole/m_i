@@ -1,0 +1,25 @@
+{
+  "name": "macchina_infinity",
+  "version": "1.0.0",
+  "description": "A distributed generative music player",
+  "main": "src/js/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sole/macchina_infinity"
+  },
+  "keywords": [
+    "web_audio",
+    "generative",
+    "distributed",
+    "music"
+  ],
+  "author": "sole",
+  "license": "Apache 2",
+  "bugs": {
+    "url": "https://github.com/sole/macchina_infinity/issues"
+  },
+  "homepage": "https://github.com/sole/macchina_infinity"
+}

@@ -4,6 +4,7 @@ var browserify = require('gulp-browserify');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var uglify = require('gulp-uglify');
+var run = require('gulp-run');
 var yargs = require('yargs');
 
 gulp.task('lint', function() {
@@ -38,5 +39,9 @@ gulp.task('watch', function() {
 	gulp.watch('src/**/*', ['lint', 'build']);
 });
 
-gulp.task('default', ['lint', 'build', 'watch']);
+gulp.task('open-browser', function() {
+	return run('cd ./build; ../node_modules/.bin/lute open').exec();
+});
+
+gulp.task('default', ['lint', 'build', 'watch', 'open-browser']);
 

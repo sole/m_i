@@ -1,9 +1,15 @@
 var Instrument = require('./Instrument');
 var copyFunctions = require('../copyFunctions');
+var generateWhiteNoise = require('../generateWhiteNoise');
 
 function SeaWave(ac) {
 
 	var node = Instrument(ac);
+	
+	// buffer with white noise (TODO: other noise colours-pick from jsconf project-make functions)
+	var noise = generateWhiteNoise(10);
+	console.log(noise);
+	// "Immortal" buffer
 
 	copyFunctions(SeaWave.prototype, node);
 	

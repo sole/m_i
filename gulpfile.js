@@ -21,7 +21,7 @@ gulp.task('build-js', function() {
 			insertGlobals: false,
 			debug: !yargs.argv.production
 		}))
-		.pipe(uglify())
+		//.pipe(uglify())
 		.pipe(gulp.dest('./build/js'));
 });
 

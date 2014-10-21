@@ -1,13 +1,14 @@
 var Instrument = require('./Instrument');
 var copyFunctions = require('../copyFunctions');
-var generateWhiteNoise = require('../generateWhiteNoise');
+var generateWhiteNoise = require('openmusic-white-noise');
 
 function SeaWave(ac) {
 
 	var node = Instrument(ac);
 	
-	// buffer with white noise (TODO: other noise colours-pick from jsconf project-make functions)
+	// buffer with white noise
 	var noise = generateWhiteNoise(10);
+	
 	console.log(noise);
 	// "Immortal" buffer
 

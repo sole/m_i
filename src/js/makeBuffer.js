@@ -1,7 +1,7 @@
 module.exports = function(options) {
-	
+	console.log(options);
 	var context = options.context;
-	var channels = options.channel !== undefined ? options.channels : 1;
+	var channels = options.channels !== undefined ? options.channels : 1;
 	var sampleRate = options.sampleRate !== undefined ? options.sampleRate : context.sampleRate;
 	var channelsData = channels === 1 ? [ options.data ] : options.data;
 	var length = channels === 1 ? options.data.length : options.data[0].length;

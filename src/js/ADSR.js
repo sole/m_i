@@ -67,10 +67,13 @@ function ADSR(audioContext, param, attack, decay, sustain, release) {
 		when = when !== undefined ? when : audioContext.currentTime;
 		var now = when;
 
-		param.cancelScheduledValues(now);
+		// this seemed to be too abrupt
+		//param.cancelScheduledValues(now);
+
 		param.linearRampToValueAtTime(0, now + this.release);
-		// TODO is this thing below really needed?
-		//param.setValueAtTime(0, now + this.release + 0.001);
+		//param.setTargetAtTime(0, now + this.release, 0.2);
+		//^^^TODO not sure which one I prefer best
+		
 	};
 
 }

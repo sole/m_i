@@ -2,7 +2,7 @@ var Instrument = require('./Instrument');
 var copyFunctions = require('../copyFunctions');
 var makeBuffer = require('../makeBuffer');
 var ADSR = require('../ADSR');
-var generateWhiteNoise = require('openmusic-white-noise');
+var generateBrownNoise = require('openmusic-brown-noise');
 var SamplePlayer = require('openmusic-sample-player');
 
 function SeaWave(ac) {
@@ -10,8 +10,8 @@ function SeaWave(ac) {
 	var node = Instrument(ac);
 	
 	var noiseLength = ac.sampleRate * 3;
-	var noiseLeft = generateWhiteNoise(noiseLength);
-	var noiseRight = generateWhiteNoise(noiseLength);
+	var noiseLeft = generateBrownNoise(noiseLength);
+	var noiseRight = generateBrownNoise(noiseLength);
 	var samplePlayer = SamplePlayer(ac);
 
 	samplePlayer.buffer = makeBuffer({ context: ac, data: [ noiseLeft, noiseRight ], channels: 2 });
@@ -22,7 +22,7 @@ function SeaWave(ac) {
 	// Extra gain to control the volume of the noise loop;
 	// we'll leave the outer gain node alone
 	var gain = ac.createGain();
-	var gainADSR = new ADSR(ac, gain.gain, 0.5, 0.5, 0.05, 1);
+	var gainADSR = new ADSR(ac, gain.gain, 1, 10, 0.05, 1);
 
 	samplePlayer.connect(gain);
 

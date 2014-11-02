@@ -9,6 +9,8 @@ module.exports = function(options) {
 	var buffer = context.createBuffer(channels, length, sampleRate);
 
 	channelsData.forEach(function(channelData, channelIndex) {
+		console.log('copying data for channel', channelIndex);
+		console.log(channelData);
 		var bufferChannelData = buffer.getChannelData(channelIndex);
 		channelData.forEach(function(sample, i) {
 			bufferChannelData[i] = sample;

@@ -20,11 +20,16 @@ oscilloscope.attachTo(analyser);
 sw.connect(analyser);
 analyser.connect(ac.destination);
 
-function trigger() {
+document.getElementById('trigger').addEventListener('click', noteOn);
+var pushButton = document.getElementById('pushbutton');
+
+pushButton.addEventListener('mousedown', noteOn);
+pushButton.addEventListener('mouseup', noteOff);
+
+function noteOn() {
 	sw.noteOn(44, 0.5);
 }
 
-document.querySelector('button').addEventListener('click', trigger);
-
-//trigger();
-
+function noteOff() {
+	sw.noteOff(44);
+}

@@ -12,6 +12,8 @@
 	- on note on
 		- volume envelope to ADS
 			- adsr
+	- on note off
+		- volume envelope to R
 
 - non-noise
 	- oscillator

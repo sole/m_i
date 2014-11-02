@@ -8,10 +8,11 @@ function SeaWave(ac) {
 
 	var node = Instrument(ac);
 	
-	var noise = generateWhiteNoise(ac.sampleRate);
+	var noiseLeft = generateWhiteNoise(ac.sampleRate);
+	var noiseRight = generateWhiteNoise(ac.sampleRate);
 	var samplePlayer = SamplePlayer(ac);
 
-	samplePlayer.buffer = makeBuffer({ context: ac, data: noise });
+	samplePlayer.buffer = makeBuffer({ context: ac, data: [ noiseLeft, noiseRight ], channels: 2 });
 	samplePlayer.loop = true;
 	samplePlayer.loopStart = 0;
 	samplePlayer.loopEnd = 1;

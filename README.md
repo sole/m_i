@@ -18,6 +18,6 @@
 	- filter
 	- reverb?
 
-- make buffer from array(2 channels, samplerate)
+- for testing: make a single device run more than 1 instrument
 
 ## make build etc

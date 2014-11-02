@@ -48,7 +48,7 @@ SeaWave.prototype.noteOn = function(noteNumber, velocity, when) {
 SeaWave.prototype.noteOff = function(noteNumber, when) {
 	console.log('SeaWave note off', noteNumber, when);
 	this.gainADSR.beginRelease(when);
-	this.samplePlayer.stop(when + this.gainADSR.release);
+	//this.samplePlayer.stop(when + this.gainADSR.release);
 };
 
 module.exports = SeaWave;

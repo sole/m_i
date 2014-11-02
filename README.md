@@ -9,10 +9,15 @@
 - infinite player ~~~ score generation
 
 - waves
-	- volume envelope
-		- adsr
+	- on note on
+		- volume envelope to ADS
+			- adsr
 
 - non-noise
 	- oscillator
 	- filter
 	- reverb?
+
+- make buffer from array(2 channels, samplerate)
+
+## make build etc

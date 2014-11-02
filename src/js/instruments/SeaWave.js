@@ -8,13 +8,24 @@ function SeaWave(ac) {
 	var node = Instrument(ac);
 	
 	// buffer with white noise
-	var noise = generateWhiteNoise(100);
+	var noise = generateWhiteNoise(ac.sampleRate);
 	var buffer = ac.createBuffer(1, noise.length, ac.sampleRate);
 	var samplePlayer = SamplePlayer(ac);
 
-	samplePlayer.buffer = buffer;
+	samplePlayer.connect(node);
 
-	this.samplePlayer = samplePlayer;
+	var channelData = buffer.getChannelData(0);
+	noise.forEach(function(v, i) {
+		channelData[i] = v;
+	});
+
+	samplePlayer.buffer = buffer;
+	samplePlayer.loop = true;
+	samplePlayer.loopStart = 0;
+	samplePlayer.loopEnd = 1;
+
+	node.buffer = buffer;
+	node.samplePlayer = samplePlayer;
 
 	copyFunctions(SeaWave.prototype, node);
 	
@@ -26,6 +37,7 @@ SeaWave.prototype = Object.create(Instrument.prototype);
 
 SeaWave.prototype.noteOn = function(noteNumber, velocity, when) {
 	console.log('SeaWave note on', noteNumber, velocity, when);
+	console.log(this.samplePlayer.buffer.length);
 	this.samplePlayer.start(when);
 };
 

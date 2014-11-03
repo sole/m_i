@@ -33,9 +33,9 @@
     "gulp-run": "^1.6.4",
     "gulp-uglify": "^0.3.1",
     "lute": "0.0.4",
-    "openmusic-brown-noise": "^1.0.1",
+    "openmusic-brown-noise": "^1.0.2",
     "openmusic-oscilloscope": "^1.0.0",
-    "openmusic-sample-player": "^1.3.0",
+    "openmusic-sample-player": "^1.3.1",
     "yargs": "^1.3.1"
   }
 }

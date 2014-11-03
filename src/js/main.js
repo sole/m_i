@@ -40,4 +40,7 @@ function noteOff() {
 // 3.4, 'noteOff', [ 44, 3.4 ] <- when needs to become relative
 // 3.6, 'setADSR', [ 0.5, 0.5, 0.2, 10 ]
 // (maybe better always set 'when' first?)
-// repeat list x times then rebuild it
+// repeat list x times then rebuild it - easier to build a long enough song.
+//
+// rather than 'per instrument' this should be more about generic commands / tracker style probably
+// patterns -> channels -> timed commands ~~~~> series of events

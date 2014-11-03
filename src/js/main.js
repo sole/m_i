@@ -33,3 +33,11 @@ function noteOn() {
 function noteOff() {
 	sw.noteOff(44);
 }
+
+// per instrument:
+// generate list of relative timestamps + *events* (not notes) e.g.
+// 0, 'noteOn', [ 44, 0.5, 0 ]
+// 3.4, 'noteOff', [ 44, 3.4 ] <- when needs to become relative
+// 3.6, 'setADSR', [ 0.5, 0.5, 0.2, 10 ]
+// (maybe better always set 'when' first?)
+// repeat list x times then rebuild it

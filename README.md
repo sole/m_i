@@ -22,4 +22,11 @@
 
 - for testing: make a single device run more than 1 instrument
 
+- player -> patterns, add notes, generate events list
+- 'requestAuditionFrame'
+- play on loop
+- instrument cancel events
+- instrument noteon -> adjust volume via instrument gain node(?)
+- armonic instrument prob triangle osc? _|\_
+
 ## make build etc

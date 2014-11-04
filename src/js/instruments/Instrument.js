@@ -10,12 +10,12 @@ function Instrument(ac) {
 	
 }
 
-Instrument.prototype.noteOn = function(noteNumber, velocity, when) {
-	console.info('instrument noteON', noteNumber, velocity, when);
+Instrument.prototype.noteOn = function(when, noteNumber, velocity) {
+	console.info('instrument noteON', when, noteNumber, velocity);
 };
 
-Instrument.prototype.noteOff = function(noteNumber, when) {
-	console.info('instrument noteOFF', noteNumber, velocity, when);
+Instrument.prototype.noteOff = function(when, noteNumber) {
+	console.info('instrument noteOFF', when, noteNumber, velocity);
 };
 
 

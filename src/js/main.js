@@ -1,3 +1,4 @@
+var Player = require('openmusic-tracker-player');
 require('openmusic-oscilloscope').register('openmusic-oscilloscope');
 
 var info = require('./DeviceInfo')();
@@ -44,3 +45,55 @@ function noteOff() {
 //
 // rather than 'per instrument' this should be more about generic commands / tracker style probably
 // patterns -> channels -> timed commands ~~~~> series of events
+
+var player = new Player();
+var song = {
+	bpm: 100,
+	orders: [ 0, 0 ],
+	// number of columns per track
+	tracks: [ 1 ],
+	patterns: [
+		{
+			rows: 32,
+			tracks: [
+				[
+					{ row: 0, columns: [{ note: 'C-4', instrument: 0 }] }
+				]
+			]
+		}
+	]
+};
+
+player.loadSong(song);
+player.buildEvents();
+player.gear = [ sw ];
+player.repeat = true;
+player.debugEventsList();
+
+var scheduleAheadTime = 0.1;
+var scheduleInterval = 0.025;
+var scheduleStart;
+var scheduleTimer;
+
+function getNow() {
+	return ac.currentTime;
+}
+
+function schedule() {
+	var now = getNow();
+	player.processEvents(now, scheduleAheadTime);
+}
+
+function play() {
+	scheduleStart = getNow();
+	// setInterval works in ms
+	player.play(scheduleStart); // play/pause/resume/stop|reset ?
+	scheduleTimer = setInterval(schedule, scheduleInterval * 1000);
+}
+
+function stop() {
+	clearInterval(scheduleTimer);
+}
+
+// TMP
+play();

@@ -39,14 +39,14 @@ function SeaWave(ac) {
 
 SeaWave.prototype = Object.create(Instrument.prototype);
 
-SeaWave.prototype.noteOn = function(noteNumber, velocity, when) {
-	console.log('SeaWave note on', noteNumber, velocity, when);
+SeaWave.prototype.noteOn = function(when, noteNumber, velocity) {
+	console.log('SeaWave note on', when, noteNumber, velocity);
 	this.samplePlayer.start(when);
 	this.gainADSR.beginAttack(when);
 };
 
-SeaWave.prototype.noteOff = function(noteNumber, when) {
-	console.log('SeaWave note off', noteNumber, when);
+SeaWave.prototype.noteOff = function(when, noteNumber) {
+	console.log('SeaWave note off', when, noteNumber);
 	this.gainADSR.beginRelease(when);
 	//this.samplePlayer.stop(when + this.gainADSR.release);
 };

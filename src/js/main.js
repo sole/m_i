@@ -33,14 +33,14 @@ var instruments = generateInstruments(maxInstruments, instrumentTypes, instrumen
 // song
 var song = generateSong({
 	bpm: 40,
-	patternLength: 32,
-	numOrders: 1,
+	patternLength: 64,
+	numOrders: 2,
 	instruments: instruments,
 	noteAllocations: [
 		{
 			type: SeaWave,
 			scale: [ 'C-4' ],
-			density: 0.1
+			density: 0.05
 		},
 		{
 			type: Bell,
@@ -60,6 +60,7 @@ var onlyInstruments = instruments.map(function(def) {
 player.gear = onlyInstruments;
 
 onlyInstruments.forEach(function(instr) {
+	instr.gain.value = 1.0 / instruments.length;
 	instr.connect(analyser);
 });
 

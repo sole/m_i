@@ -60,7 +60,11 @@ var song = {
 			rows: 32,
 			tracks: [
 				[
-					{ row: 0, columns: [{ note: 'C-4', instrument: 0 }] }
+					{ row: 0, columns: [{ note: 'C-4', instrument: 0 }] },
+					{ row: 8, columns: [{ note: 'OFF', instrument: 0 }] },
+					{ row: 16, columns: [{ note: 'G-4', instrument: 0 }] },
+					{ row: 24, columns: [{ note: 'OFF', instrument: 0 }] }
+
 				]
 			]
 		}

@@ -9,7 +9,7 @@ function Bell(ac) {
 	copyFunctions(Bell.prototype, node);
 
 	var gain = ac.createGain();
-	var gainADSR = new ADSR(ac, gain.gain, 0.2, 0.1, 0.1, 0.5);
+	var gainADSR = new ADSR(ac, gain.gain, 0.1, 0.4, 0.0, 0.0);
 
 	gain.connect(node);
 
@@ -27,10 +27,9 @@ function Bell(ac) {
 Bell.prototype = Object.create(Instrument.prototype);
 
 Bell.prototype.noteOn = function(when, noteNumber, velocity) {
-	console.log('Bell note on', when, noteNumber, velocity);
+	//console.log('Bell note on', when, noteNumber, velocity);
 
 	var frequency = MIDIUtils.noteNumberToFrequency(noteNumber);
-	console.log(frequency);
 	
 	this.oscillator.frequency.setValueAtTime(frequency, when);
 	this.oscillator.start(when);
@@ -38,9 +37,8 @@ Bell.prototype.noteOn = function(when, noteNumber, velocity) {
 };
 
 Bell.prototype.noteOff = function(when, noteNumber) {
-	console.log('Bell note off', when, noteNumber);
+	//console.log('Bell note off', when, noteNumber);
 	this.gainADSR.beginRelease(when);
-	//this.samplePlayer.stop(when + this.gainADSR.release);
 };
 
 module.exports = Bell;

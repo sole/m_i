@@ -22,7 +22,7 @@ function SeaWave(ac) {
 	// Extra gain to control the volume of the noise loop;
 	// we'll leave the outer gain node alone
 	var gain = ac.createGain();
-	var gainADSR = new ADSR(ac, gain.gain, 1, 10, 0.05, 1);
+	var gainADSR = new ADSR(ac, gain.gain, 1, 10, 0.1, 0);
 
 	samplePlayer.connect(gain);
 

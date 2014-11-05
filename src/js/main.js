@@ -16,6 +16,7 @@ document.body.appendChild(document.createTextNode(JSON.stringify(info)));
 var ac = new AudioContext();
 var analyser = ac.createAnalyser();
 oscilloscope.attachTo(analyser);
+analyser.connect(ac.destination);
 
 // player
 var player = new Player();
@@ -31,25 +32,38 @@ var instruments = generateInstruments(maxInstruments, instrumentTypes, instrumen
 
 // song
 var song = generateSong({
-	bpm: 100,
-	patternLength: 16,
+	bpm: 40,
+	patternLength: 32,
 	numOrders: 1,
 	instruments: instruments,
 	noteAllocations: [
 		{
 			type: SeaWave,
 			scale: [ 'C-4' ],
-			density: 0.2
+			density: 0.1
 		},
 		{
 			type: Bell,
 			scale: [ 'C-4', 'C-5', 'A-4' ],
-			density: 0.6
+			density: 0.3
 		}
 	]
 });
 
 player.loadSong(song);
+player.buildEvents();
+
+var onlyInstruments = instruments.map(function(def) {
+	return def.instrument;
+});
+
+player.gear = onlyInstruments;
+
+onlyInstruments.forEach(function(instr) {
+	instr.connect(analyser);
+});
+
+scheduler.play();
 
 //
 
@@ -132,7 +146,6 @@ function generatePattern(rows, instrDefs, noteAllocations) {
 			notes.push(null);
 		}
 
-		// TODO randomise notes
 		notes.sort(randomSort);
 
 		notes.forEach(function(note, rowIndex) {

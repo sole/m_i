@@ -3,6 +3,7 @@ require('openmusic-oscilloscope').register('openmusic-oscilloscope');
 
 var info = require('./DeviceInfo')();
 var SeaWave = require('./instruments/SeaWave');
+var Bell = require('./instruments/Bell');
 
 console.log('hey there', info);
 
@@ -14,10 +15,12 @@ document.body.appendChild(document.createTextNode(JSON.stringify(info)));
 
 var ac = new AudioContext();
 var sw = SeaWave(ac);
+var bell = Bell(ac);
 var analyser = ac.createAnalyser();
 
 oscilloscope.attachTo(analyser);
 
+bell.connect(analyser);
 sw.connect(analyser);
 analyser.connect(ac.destination);
 
@@ -66,7 +69,7 @@ var song = {
 
 player.loadSong(song);
 player.buildEvents();
-player.gear = [ sw ];
+player.gear = [ bell ];
 player.repeat = true;
 player.debugEventsList();
 

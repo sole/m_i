@@ -24,7 +24,7 @@ var player = new Player();
 var scheduler = new Scheduler(ac, player);
 
 // instruments
-var maxInstruments = 12;
+var maxInstruments = 5;
 var instrumentTypes = [ SeaWave, Bell ];
 var instrumentProbabilities = [ 0.2, 0.8 ];
 var instruments = generateInstruments(maxInstruments, instrumentTypes, instrumentProbabilities, ac);
@@ -32,8 +32,8 @@ var instruments = generateInstruments(maxInstruments, instrumentTypes, instrumen
 // song
 var song = generateSong({
 	bpm: 100,
-	patternLength: 64,
-	numOrders: 10,
+	patternLength: 16,
+	numOrders: 1,
 	instruments: instruments,
 	noteAllocations: [
 		{
@@ -124,7 +124,7 @@ function generatePattern(rows, instrDefs, noteAllocations) {
 		console.log('density', alloc.density, 'num notes', numNotes);
 		
 		for(i = 0; i < numNotes; i++) {
-			var note = scale[Math.round(Math.random() * scale.length)];
+			var note = scale[Math.round(Math.random() * scale.length) % scale.length];
 			notes.push(note);	
 		}
 
@@ -133,6 +133,7 @@ function generatePattern(rows, instrDefs, noteAllocations) {
 		}
 
 		// TODO randomise notes
+		notes.sort(randomSort);
 
 		notes.forEach(function(note, rowIndex) {
 			if(note !== null) {
@@ -148,6 +149,10 @@ function generatePattern(rows, instrDefs, noteAllocations) {
 	});
 
 	return pattern;
+}
+
+function randomSort(a, b) {
+	return Math.random() > 0.5;
 }
 
 function findNoteAllocation(instrDef, noteAllocations) {

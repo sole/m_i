@@ -1,4 +1,5 @@
 var Player = require('openmusic-tracker-player');
+var Scheduler = require('./Scheduler');
 require('openmusic-oscilloscope').register('openmusic-oscilloscope');
 
 var info = require('./DeviceInfo')();
@@ -12,13 +13,156 @@ document.body.appendChild(oscilloscope);
 
 document.body.appendChild(document.createTextNode(JSON.stringify(info)));
 
-
 var ac = new AudioContext();
+var analyser = ac.createAnalyser();
+oscilloscope.attachTo(analyser);
+
+// player
+var player = new Player();
+
+// scheduler
+var scheduler = new Scheduler(ac, player);
+
+// instruments
+var maxInstruments = 12;
+var instrumentTypes = [ SeaWave, Bell ];
+var instrumentProbabilities = [ 0.2, 0.8 ];
+var instruments = generateInstruments(maxInstruments, instrumentTypes, instrumentProbabilities, ac);
+
+// song
+var song = generateSong({
+	bpm: 100,
+	patternLength: 64,
+	numOrders: 10,
+	instruments: instruments,
+	noteAllocations: [
+		{
+			type: SeaWave,
+			scale: [ 'C-4' ],
+			density: 0.2
+		},
+		{
+			type: Bell,
+			scale: [ 'C-4', 'C-5', 'A-4' ],
+			density: 0.6
+		}
+	]
+});
+
+player.loadSong(song);
+
+//
+
+function generateInstruments(amount, types, probabilities, audioContext) {
+	var out = [];
+	var allocation = probabilities.map(function(p) {
+		return Math.round(amount * p);
+	});
+
+	console.log(allocation);
+
+	allocation.forEach(function(num, index) {
+		var constructor = types[index];
+		for(var i = 0; i < num; i++) {
+			var instr = constructor(audioContext);
+			out.push({ instrument: instr, type: constructor });
+		}
+	});
+
+	return out;
+	
+}
+
+function generateSong(options) {
+	
+	var bpm = options.bpm || 100;
+	var patternLength = options.patternLength || 64;
+	var numOrders = options.numOrders || 1;
+	var instruments = options.instruments;
+	var noteAllocations = options.noteAllocations;
+	var orders = [];
+	var tracks = [];
+	var patterns = [];
+
+	// One channel per instrument
+	instruments.forEach(function() {
+		tracks.push(1);
+	});
+
+	for(var i = 0; i < numOrders; i++) {
+		orders.push(i);
+
+		patterns.push(generatePattern(patternLength, instruments, noteAllocations));
+	}
+
+	var out = {
+		bpm: bpm,
+		orders: orders,
+		tracks: tracks,
+		patterns: patterns
+	};
+
+	return out;
+}
+
+
+function generatePattern(rows, instrDefs, noteAllocations) {
+	var tracks = [];
+	var pattern = {
+		rows: rows,
+		tracks: tracks
+	};
+
+	instrDefs.forEach(function(def, instrIndex) {
+		var alloc = findNoteAllocation(def, noteAllocations);
+		var scale = alloc.scale;
+		var track = [];
+		var numNotes = Math.round(alloc.density * rows);
+		var notes = [];
+		var i;
+
+		console.log('density', alloc.density, 'num notes', numNotes);
+		
+		for(i = 0; i < numNotes; i++) {
+			var note = scale[Math.round(Math.random() * scale.length)];
+			notes.push(note);	
+		}
+
+		for(i = numNotes; i < rows; i++) {
+			notes.push(null);
+		}
+
+		// TODO randomise notes
+
+		notes.forEach(function(note, rowIndex) {
+			if(note !== null) {
+				track.push({
+					row: rowIndex,
+					columns: [{ note: note, instrument: instrIndex }]
+				});
+			}
+		});
+
+		tracks.push(track);
+
+	});
+
+	return pattern;
+}
+
+function findNoteAllocation(instrDef, noteAllocations) {
+	var instrumentType = instrDef.type;
+	for(var i = 0; i < noteAllocations.length; i++) {
+		var alloc = noteAllocations[i];
+		if(alloc.type === instrumentType) {
+			return alloc;
+		}
+	}
+}
+
+/*
 var sw = SeaWave(ac);
 var bell = Bell(ac);
-var analyser = ac.createAnalyser();
-
-oscilloscope.attachTo(analyser);
 
 bell.connect(analyser);
 sw.connect(analyser);
@@ -38,16 +182,6 @@ function noteOff() {
 	sw.noteOff(44);
 }
 
-// per instrument:
-// generate list of relative timestamps + *events* (not notes) e.g.
-// 0, 'noteOn', [ 44, 0.5, 0 ]
-// 3.4, 'noteOff', [ 44, 3.4 ] <- when needs to become relative
-// 3.6, 'setADSR', [ 0.5, 0.5, 0.2, 10 ]
-// (maybe better always set 'when' first?)
-// repeat list x times then rebuild it - easier to build a long enough song.
-//
-// rather than 'per instrument' this should be more about generic commands / tracker style probably
-// patterns -> channels -> timed commands ~~~~> series of events
 
 var player = new Player();
 var song = {
@@ -103,4 +237,4 @@ function stop() {
 }
 
 // TMP
-play();
+play();*/
